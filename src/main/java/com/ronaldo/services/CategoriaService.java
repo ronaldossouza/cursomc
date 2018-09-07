@@ -1,10 +1,12 @@
 package com.ronaldo.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.ronaldo.domain.Categoria;
 import com.ronaldo.repositories.CategoriaRepository;
+import com.ronaldo.services.exceptions.DataIntegrityException;
 import com.ronaldo.services.exceptions.ObjectNotFoundException;
 
 @Service
@@ -32,4 +34,14 @@ public class CategoriaService {
 		find(obj.getId());
 		return repo.save(obj);
 	}
+	
+	public void delete(Integer id) {
+		find(id);
+		try {
+		repo.delete(id);
+	}
+		catch (DataIntegrityViolationException e) {
+			throw new DataIntegrityException("Não é possivel excluir uma categori que possui produtos");
+			}
+		}
 }
