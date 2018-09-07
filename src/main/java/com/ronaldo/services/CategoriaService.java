@@ -10,6 +10,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.ronaldo.domain.Categoria;
+import com.ronaldo.dto.CategoriaDTO;
 import com.ronaldo.repositories.CategoriaRepository;
 import com.ronaldo.services.exceptions.DataIntegrityException;
 import com.ronaldo.services.exceptions.ObjectNotFoundException;
@@ -58,6 +59,11 @@ public class CategoriaService {
 		PageRequest pageRequest = new PageRequest(page, linesPerPage, Direction.valueOf(direction), orderBy);
 		return repo.findAll(pageRequest);
 	}
+	
+	public Categoria fromDTO(CategoriaDTO objDto) {
+		return new Categoria(objDto.getId(), objDto.getNome());
+	}
+			
 	
 	
 }
