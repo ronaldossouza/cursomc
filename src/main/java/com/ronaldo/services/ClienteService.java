@@ -65,7 +65,7 @@ private EnderecoRepository enderecoRepository;
 		repo.delete(id);
 	}
 		catch (DataIntegrityViolationException e) {
-			throw new DataIntegrityException("Não é possivel excluir uma porque há entidades relacionadas");
+			throw new DataIntegrityException("Não é possivel excluir uma porque há pedidos relacionadas");
 			}
 		}
 	
