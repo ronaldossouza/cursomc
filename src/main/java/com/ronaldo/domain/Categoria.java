@@ -1,5 +1,4 @@
 package com.ronaldo.domain;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,14 +18,10 @@ public class Categoria implements Serializable {
 	private Integer id;
 	private String nome;
 	
-	
-	@ManyToMany(mappedBy ="categorias")
-	
+	@ManyToMany(mappedBy="categorias")
 	private List<Produto> produtos = new ArrayList<>();
 	
 	public Categoria() {
-		
-		
 	}
 
 	public Categoria(Integer id, String nome) {
@@ -50,7 +45,7 @@ public class Categoria implements Serializable {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	
+
 	public List<Produto> getProdutos() {
 		return produtos;
 	}
@@ -58,7 +53,7 @@ public class Categoria implements Serializable {
 	public void setProdutos(List<Produto> produtos) {
 		this.produtos = produtos;
 	}
-	 
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -84,6 +79,4 @@ public class Categoria implements Serializable {
 		return true;
 	}
 
-
-	
 }
