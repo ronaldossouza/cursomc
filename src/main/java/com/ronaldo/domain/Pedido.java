@@ -22,56 +22,43 @@ public class Pedido implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	
 	@JsonFormat(pattern="dd/MM/yyyy HH:mm")
 	private Date instante;
-
 	
-	@OneToOne(cascade=CascadeType.ALL, mappedBy="pedido" )
+	@OneToOne(cascade=CascadeType.ALL, mappedBy="pedido")
 	private Pagamento pagamento;
 
-	
 	@ManyToOne
 	@JoinColumn(name="cliente_id")
 	private Cliente cliente;
-
+	
 	@ManyToOne
 	@JoinColumn(name="endereco_de_entrega_id")
 	private Endereco enderecoDeEntrega;
 	
 	@OneToMany(mappedBy="id.pedido")
 	private Set<ItemPedido> itens = new HashSet<>();
-
+	
 	public Pedido() {
-
 	}
-	public Pedido(Integer id, Date instante,Cliente cliente, Endereco enderecoDeEntrega) {
+
+	public Pedido(Integer id, Date instante, Cliente cliente, Endereco enderecoDeEntrega) {
 		super();
 		this.id = id;
 		this.instante = instante;
 		this.cliente = cliente;
 		this.enderecoDeEntrega = enderecoDeEntrega;
-		
-	 
-		
 	}
 
-public double getValorTotal(){
-	double  soma = 0.0;
-	for (ItemPedido ip: itens) {
-		soma = soma + ip.getSubTotal();
-	}
-	
-	return soma;
-}
-	
-	public Set<ItemPedido> getItens() {
-		return itens;
-	}
-	public void setItens(Set<ItemPedido> itens) {
-		this.itens = itens;
+	public double getValorTotal() {
+		double soma = 0.0;
+		for (ItemPedido ip : itens) {
+			soma = soma + ip.getSubTotal();
+		}
+		return soma;
 	}
 	
 	public Integer getId() {
@@ -114,6 +101,14 @@ public double getValorTotal(){
 		this.enderecoDeEntrega = enderecoDeEntrega;
 	}
 
+	public Set<ItemPedido> getItens() {
+		return itens;
+	}
+
+	public void setItens(Set<ItemPedido> itens) {
+		this.itens = itens;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -138,6 +133,6 @@ public double getValorTotal(){
 			return false;
 		return true;
 	}
-
-
+	
+	
 }

@@ -1,4 +1,5 @@
 package com.ronaldo.domain;
+
 import java.io.Serializable;
 
 import javax.persistence.Entity;

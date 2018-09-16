@@ -7,6 +7,5 @@ import com.ronaldo.domain.Endereco;
 
 @Repository
 public interface EnderecoRepository extends JpaRepository<Endereco, Integer> {
-	
 
 }

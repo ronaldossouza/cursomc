@@ -16,6 +16,7 @@ import com.ronaldo.services.exceptions.ObjectNotFoundException;
 
 @Service
 public class ProdutoService {
+	
 
 	@Autowired
 	private ProdutoRepository repo;
@@ -34,7 +35,8 @@ public class ProdutoService {
 	}
 	public Page<Produto> search(String nome, List<Integer> ids, Integer page, Integer linesPerPage, String orderBy, String direction){
 		PageRequest pageRequest = new PageRequest(page, linesPerPage, Direction.valueOf(direction), orderBy);
-		List<Categoria> categorias = categoriaRepository.findAll(ids);
+		//List<Categoria> categorias = categoriaRepository.findAll(ids);
+		  List<Categoria> categorias = categoriaRepository.findAllById(ids);
 		return repo.findDistinctByNomeContainingAndCategoriasIn(nome, categorias, pageRequest);
 	}
 	

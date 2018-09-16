@@ -7,6 +7,5 @@ import com.ronaldo.domain.Pedido;
 
 @Repository
 public interface PedidoRepository extends JpaRepository<Pedido, Integer> {
-	
 
 }

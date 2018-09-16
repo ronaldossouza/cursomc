@@ -14,12 +14,21 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ronaldo.domain.Categoria;
 import com.ronaldo.domain.Produto;
 
-@Repository
-public interface ProdutoRepository extends JpaRepository<Produto, Integer> {
-	@Transactional(readOnly=true)
-	//@Query("SELECT DISTINCT obj FROM Produto obj INNER JOIN obj.categorias cat WHERE obj.nome LIKE %:nome% AND cat IN :categorias")
-	//Page<Produto> search(@Param("nome") String nome, @Param("categorias") List<Categoria> categorias, Pageable pageRequest);
-	Page<Produto>findDistinctByNomeContainingAndCategoriasIn(String nome, List<Categoria> categorias, Pageable pageRequest);
-	
+//@Repository
+//public interface ProdutoRepository extends JpaRepository<Produto, Integer> {
+//
+//	@Transactional(readOnly=true)
+//	@Query("SELECT DISTINCT obj FROM Produto obj INNER JOIN obj.categorias cat WHERE obj.nome LIKE %:nome% AND cat IN :categorias")
+//	Page<Produto> findDistinctByNomeContainingAndCategoriasIn(@Param("nome") String nome, @Param("categorias") List<Categoria> categorias, Pageable pageRequest);
+//}
 
+@Repository
+@Transactional(readOnly=true)
+public interface ProdutoRepository extends JpaRepository<Produto, Integer> {
+// https://docs.spring.io/spring-data/jpa/docs/current/reference/html/
+@Query("SELECT DISTINCT obj FROM Produto obj INNER JOIN obj.categorias cat WHERE obj.nome LIKE %:nome% AND cat IN :categorias")
+Page<Produto> findDistinctByNomeContainingAndCategoriasIn(
+@Param("nome") String nome,
+@Param("categorias") List<Categoria> categorias,
+Pageable pageRequest);
 }
