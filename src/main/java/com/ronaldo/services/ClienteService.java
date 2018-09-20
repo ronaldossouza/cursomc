@@ -13,12 +13,15 @@ import org.springframework.stereotype.Service;
 import com.ronaldo.domain.Cidade;
 import com.ronaldo.domain.Cliente;
 import com.ronaldo.domain.Endereco;
+import com.ronaldo.domain.enums.Perfil;
 import com.ronaldo.domain.enums.TipoCliente;
 import com.ronaldo.dto.ClienteDTO;
 import com.ronaldo.dto.ClienteNewDTO;
 import com.ronaldo.repositories.CidadeRepository;
 import com.ronaldo.repositories.ClienteRepository;
 import com.ronaldo.repositories.EnderecoRepository;
+import com.ronaldo.security.UserSS;
+import com.ronaldo.services.exceptions.AuthorizationException;
 import com.ronaldo.services.exceptions.DataIntegrityException;
 import com.ronaldo.services.exceptions.ObjectNotFoundException;
 
@@ -38,7 +41,14 @@ private CidadeRepository cidadeRepository;
 private EnderecoRepository enderecoRepository;
 
 
-	public Cliente find(Integer id) {
+public Cliente find(Integer id) {
+
+	UserSS user = UserService.authenticated();
+	if (user == null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())) {
+		throw new AuthorizationException("Acesso negado");
+	}
+		
+		
 		Cliente obj = repo.findOne(id);
 		if (obj == null) {
 			throw new ObjectNotFoundException("Objeto não encontrado. Id: " + id
