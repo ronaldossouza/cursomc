@@ -3,8 +3,12 @@ package com.ronaldo.services;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
+import com.ronaldo.domain.Cliente;
 import com.ronaldo.domain.ItemPedido;
 import com.ronaldo.domain.PagamentoComBoleto;
 import com.ronaldo.domain.Pedido;
@@ -14,6 +18,8 @@ import com.ronaldo.repositories.ItemPedidoRepository;
 import com.ronaldo.repositories.PagamentoRepository;
 import com.ronaldo.repositories.PedidoRepository;
 import com.ronaldo.repositories.ProdutoRepository;
+import com.ronaldo.security.UserSS;
+import com.ronaldo.services.exceptions.AuthorizationException;
 import com.ronaldo.services.exceptions.ObjectNotFoundException;
 
 @Service
@@ -75,4 +81,17 @@ public class PedidoService {
 		emailService.sendOrderConfirmationHtmlEmail(obj);
 		return obj;
 	}
+	
+	public Page<Pedido> findPage(Integer page, Integer linesPerPage, String orderBy, String direction){
+		UserSS user = UserService.authenticated();
+		if(user ==null) {
+		throw new AuthorizationException("Acesso negado.");
+		}
+		PageRequest pageRequest = new PageRequest(page, linesPerPage, Direction.valueOf(direction), orderBy);
+		Cliente cliente =  clienteRepository.findOne(user.getId());
+		return repo.findByCliente(cliente, pageRequest);
+		
+	}
+		
+	
 }
